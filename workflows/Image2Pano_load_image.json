@@ -1,0 +1,330 @@
+{
+  "last_node_id": 64,
+  "last_link_id": 85,
+  "nodes": [
+    {
+      "id": 56,
+      "type": "SaveImage",
+      "pos": [
+        1833,
+        409
+      ],
+      "size": {
+        "0": 315,
+        "1": 270
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 73
+        }
+      ],
+      "properties": {},
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 54,
+      "type": "Diffusion360SamplerImage2Pano",
+      "pos": [
+        1421,
+        284
+      ],
+      "size": {
+        "0": 315,
+        "1": 258
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 67
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 84
+        },
+        {
+          "name": "mask",
+          "type": "IMAGE",
+          "link": 70
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 71
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 72
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            73
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Diffusion360SamplerImage2Pano"
+      },
+      "widgets_values": [
+        21172,
+        "randomize",
+        20,
+        7.5,
+        "disable",
+        "disable"
+      ]
+    },
+    {
+      "id": 55,
+      "type": "InputText",
+      "pos": [
+        700,
+        497
+      ],
+      "size": {
+        "0": 301.59722900390625,
+        "1": 76
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            72
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InputText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 63,
+      "type": "PreviewImage",
+      "pos": [
+        1887,
+        740
+      ],
+      "size": {
+        "0": 210,
+        "1": 246
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 85
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 51,
+      "type": "Diffusion360LoaderImage2Pano",
+      "pos": [
+        239,
+        501
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            67
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            70
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Diffusion360LoaderImage2Pano"
+      },
+      "widgets_values": [
+        "diffusion360"
+      ]
+    },
+    {
+      "id": 50,
+      "type": "InputText",
+      "pos": [
+        696,
+        374
+      ],
+      "size": {
+        "0": 313.397216796875,
+        "1": 76
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            71
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InputText"
+      },
+      "widgets_values": [
+        "a living room"
+      ]
+    },
+    {
+      "id": 64,
+      "type": "InputImage",
+      "pos": [
+        993,
+        673
+      ],
+      "size": [
+        315,
+        294.00000953674316
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            84,
+            85
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InputImage"
+      },
+      "widgets_values": [
+        "i2p-image.jpg",
+        "image"
+      ]
+    }
+  ],
+  "links": [
+    [
+      67,
+      51,
+      0,
+      54,
+      0,
+      "MODEL"
+    ],
+    [
+      70,
+      51,
+      1,
+      54,
+      2,
+      "IMAGE"
+    ],
+    [
+      71,
+      50,
+      0,
+      54,
+      3,
+      "CONDITIONING"
+    ],
+    [
+      72,
+      55,
+      0,
+      54,
+      4,
+      "CONDITIONING"
+    ],
+    [
+      73,
+      54,
+      0,
+      56,
+      0,
+      "IMAGE"
+    ],
+    [
+      84,
+      64,
+      0,
+      54,
+      1,
+      "IMAGE"
+    ],
+    [
+      85,
+      64,
+      0,
+      63,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.620921323059155,
+      "offset": {
+        "0": -8.517594827843538,
+        "1": -9.911101071903587
+      }
+    }
+  },
+  "version": 0.4
+}
