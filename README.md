@@ -25,16 +25,11 @@ ${ComfyUI_ROOT}
 |-- models
     |-- diffusers
         |-- diffusion360
-            |-- data  
-            |   |-- a-living-room.png
-            |   |...
-            |-- models  
-            |   |-- sd-base
-            |   |-- sr-base
-            |   |-- sr-control
-            |   |-- RealESRGAN_x2plus.pth
-            |-- txt2panoimg
-            |-- img2panoimg
+            |-- sd-base
+            |-- sr-base
+            |-- sr-control
+            |-- sd-i2p
+            |-- RealESRGAN_x2plus.pth
             |...
 ```
 
