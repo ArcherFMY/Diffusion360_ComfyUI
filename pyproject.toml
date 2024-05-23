@@ -1,0 +1,15 @@
+[project]
+name = "diffusion360_comfyui"
+description = "ComfyUI plugin of [a/SD-T2I-360PanoImage](https://github.com/ArcherFMY/SD-T2I-360PanoImage).\nbase t2i-pipeline for generating 512*1024 panorama image from text input"
+version = "1.0.0"
+license = "LICENSE"
+dependencies = ["torch", "torchvision", "torchaudio", "diffusers==0.26.0", "accelerate", "xformers", "triton", "transformers", "realesrgan==0.3.0", "py360convert", "numpy==1.23.5"]
+
+[project.urls]
+Repository = "https://github.com/ArcherFMY/Diffusion360_ComfyUI"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "Diffusion360_ComfyUI"
+Icon = ""
