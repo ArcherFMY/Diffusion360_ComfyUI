@@ -36,7 +36,7 @@ class InputImage:
     FUNCTION = "load_image"
 
     def load_image(self, image):
-        image_path = os.path.join('custom_nodes/Diffusion360_ComfyUI/data/', image)
+        image_path = os.path.join('custom_nodes', 'Diffusion360_ComfyUI', 'data', image)
         img = node_helpers.pillow(Image.open, image_path)
 
         output_images = []
@@ -123,7 +123,7 @@ class Diffusion360LoaderText2Pano:
     CATEGORY = "Diffusion360/diffusers"
 
     def load_models(self, model_path):
-        pipe = Text2360PanoramaImagePipeline(os.path.join('models/diffusers', model_path), torch_dtype=torch.float16)
+        pipe = Text2360PanoramaImagePipeline(os.path.join('models', 'diffusers', model_path), torch_dtype=torch.float16)
         return (pipe, )
 
 
@@ -184,6 +184,7 @@ class Diffusion360LoaderImage2Pano:
     CATEGORY = "Diffusion360/diffusers"
 
     def load_models(self, model_path):
-        pipe = Image2360PanoramaImagePipeline(os.path.join('models/diffusers', model_path), torch_dtype=torch.float16)
-        mask = load_image('custom_nodes/Diffusion360_ComfyUI/data/i2p-mask.jpg')
+        pipe = Image2360PanoramaImagePipeline(os.path.join('models', 'diffusers', model_path), torch_dtype=torch.float16)
+        mask_path = os.path.join('custom_nodes', 'Diffusion360_ComfyUI', 'data', 'i2p-mask.jpg')
+        mask = load_image(mask_path)
         return (pipe, mask)

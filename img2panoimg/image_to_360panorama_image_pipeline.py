@@ -1,6 +1,7 @@
 # Copyright © Alibaba, Inc. and its affiliates.
 import random
 from typing import Any, Dict
+import os
 
 import numpy as np
 import torch
@@ -47,10 +48,12 @@ class Image2360PanoramaImagePipeline(DiffusionPipeline):
         enable_xformers_memory_efficient_attention = kwargs.get(
             'enable_xformers_memory_efficient_attention', True)
 
-        model_id = model + '/sr-base/'
+        # model_id = model + '/sr-base/'
+        model_id = os.path.join(model, 'sr-base')
 
         # init i2p model
-        controlnet = ControlNetModel.from_pretrained(model + '/sd-i2p', torch_dtype=torch.float16)
+        # controlnet = ControlNetModel.from_pretrained(model + '/sd-i2p', torch_dtype=torch.float16)
+        controlnet = ControlNetModel.from_pretrained(os.path.join(model, 'sd-i2p'), torch_dtype=torch.float16)
 
         self.pipe = StableDiffusionImage2PanoPipeline.from_pretrained(
             model_id, controlnet=controlnet, torch_dtype=torch_dtype).to(device)
@@ -66,8 +69,11 @@ class Image2360PanoramaImagePipeline(DiffusionPipeline):
         self.pipe.enable_model_cpu_offload()
 
         # init controlnet-sr model
-        base_model_path = model + '/sr-base'
-        controlnet_path = model + '/sr-control'
+        # base_model_path = model + '/sr-base'
+        # controlnet_path = model + '/sr-control'
+        base_model_path = os.path.join(model, 'sr-base')
+        controlnet_path = os.path.join(model, 'sr-control')
+
         controlnet = ControlNetModel.from_pretrained(
             controlnet_path, torch_dtype=torch_dtype)
         self.pipe_sr = StableDiffusionControlNetImg2ImgPanoPipeline.from_pretrained(
@@ -94,7 +100,8 @@ class Image2360PanoramaImagePipeline(DiffusionPipeline):
             scale=2)
         netscale = 2
 
-        model_path = model + '/RealESRGAN_x2plus.pth'
+        # model_path = model + '/RealESRGAN_x2plus.pth'
+        model_path = os.path.join(model, 'RealESRGAN_x2plus.pth')
 
         dni_weight = None
         self.upsampler = RealESRGANer(

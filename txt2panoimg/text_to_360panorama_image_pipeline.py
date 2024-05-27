@@ -1,6 +1,7 @@
 # Copyright © Alibaba, Inc. and its affiliates.
 import random
 from typing import Any, Dict
+import os
 
 import numpy as np
 import torch
@@ -46,7 +47,8 @@ class Text2360PanoramaImagePipeline(DiffusionPipeline):
         enable_xformers_memory_efficient_attention = kwargs.get(
             'enable_xformers_memory_efficient_attention', True)
 
-        model_id = model + '/sd-base/'
+        # model_id = model + '/sd-base/'
+        model_id = os.path.join(model, 'sd-base')
 
         # init base model
         self.pipe = StableDiffusionBlendExtendPipeline.from_pretrained(
@@ -63,8 +65,11 @@ class Text2360PanoramaImagePipeline(DiffusionPipeline):
         self.pipe.enable_model_cpu_offload()
 
         # init controlnet-sr model
-        base_model_path = model + '/sr-base'
-        controlnet_path = model + '/sr-control'
+        # base_model_path = model + '/sr-base'
+        # controlnet_path = model + '/sr-control'
+        base_model_path = os.path.join(model, 'sr-base')
+        controlnet_path = os.path.join(model, 'sr-control')
+
         controlnet = ControlNetModel.from_pretrained(
             controlnet_path, torch_dtype=torch_dtype)
         self.pipe_sr = StableDiffusionControlNetImg2ImgPanoPipeline.from_pretrained(
@@ -91,7 +96,8 @@ class Text2360PanoramaImagePipeline(DiffusionPipeline):
             scale=2)
         netscale = 2
 
-        model_path = model + '/RealESRGAN_x2plus.pth'
+        # model_path = model + '/RealESRGAN_x2plus.pth'
+        model_path = os.path.join(model, 'RealESRGAN_x2plus.pth')
 
         dni_weight = None
         self.upsampler = RealESRGANer(
