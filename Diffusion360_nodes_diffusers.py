@@ -25,21 +25,24 @@ class InputText:
 class InputImage:
     @classmethod
     def INPUT_TYPES(s):
-        files = ["i2p-image.jpg"]
+        input_dir = folder_paths.get_input_directory()
+        files = [f for f in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir, f))]
         return {"required":
                     {"image": (sorted(files), {"image_upload": True})},
                 }
 
-    CATEGORY = "Diffusion360/diffusers"
+    CATEGORY = "image"
 
     RETURN_TYPES = ("IMAGE", )
     FUNCTION = "load_image"
 
     def load_image(self, image):
-        image_path = os.path.join('custom_nodes', 'Diffusion360_ComfyUI', 'data', image)
+        image_path = folder_paths.get_annotated_filepath(image)
+
         img = node_helpers.pillow(Image.open, image_path)
 
         output_images = []
+        output_masks = []
         w, h = None, None
 
         excluded_formats = ['MPO']
@@ -60,12 +63,20 @@ class InputImage:
 
             image = np.array(image).astype(np.float32) / 255.0
             image = torch.from_numpy(image)[None,]
+            if 'A' in i.getbands():
+                mask = np.array(i.getchannel('A')).astype(np.float32) / 255.0
+                mask = 1. - torch.from_numpy(mask)
+            else:
+                mask = torch.zeros((64, 64), dtype=torch.float32, device="cpu")
             output_images.append(image)
+            output_masks.append(mask.unsqueeze(0))
 
         if len(output_images) > 1 and img.format not in excluded_formats:
             output_image = torch.cat(output_images, dim=0)
+            output_mask = torch.cat(output_masks, dim=0)
         else:
             output_image = output_images[0]
+            output_mask = output_masks[0]
 
         return (output_image, )
 
@@ -197,6 +208,6 @@ class Diffusion360LoaderImage2Pano:
     def load_models(self, model_path, model_root):
         # pipe = Image2360PanoramaImagePipeline(os.path.join('models', 'diffusers', model_path), torch_dtype=torch.float16)
         pipe = Image2360PanoramaImagePipeline(os.path.join(model_root, model_path), torch_dtype=torch.float16)
-        mask_path = os.path.join('custom_nodes', 'Diffusion360_ComfyUI', 'data', 'i2p-mask.jpg')
+        mask_path = os.path.join(os.path.dirname(__file__), 'data', 'i2p-mask.jpg')
         mask = load_image(mask_path)
         return (pipe, mask)

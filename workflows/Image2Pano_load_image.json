@@ -84,7 +84,7 @@
         "Node name for S&R": "Diffusion360SamplerImage2Pano"
       },
       "widgets_values": [
-        21172,
+        46120,
         "randomize",
         20,
         7.5,
@@ -158,7 +158,7 @@
       ],
       "size": {
         "0": 315,
-        "1": 78
+        "1": 102
       },
       "flags": {},
       "order": 1,
@@ -187,7 +187,8 @@
         "Node name for S&R": "Diffusion360LoaderImage2Pano"
       },
       "widgets_values": [
-        "diffusion360"
+        "diffusion360",
+        "/workspace/codes/ComfyUI/models/diffusers"
       ]
     },
     {
@@ -229,10 +230,10 @@
         993,
         673
       ],
-      "size": [
-        315,
-        294.00000953674316
-      ],
+      "size": {
+        "0": 315,
+        "1": 294
+      },
       "flags": {},
       "order": 3,
       "mode": 0,
