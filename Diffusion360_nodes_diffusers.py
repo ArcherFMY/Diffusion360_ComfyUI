@@ -31,7 +31,7 @@ class InputImage:
                     {"image": (sorted(files), {"image_upload": True})},
                 }
 
-    CATEGORY = "image"
+    CATEGORY = "Diffusion360/diffusers"
 
     RETURN_TYPES = ("IMAGE", )
     FUNCTION = "load_image"
