@@ -108,22 +108,28 @@ class Diffusion360SamplerText2Pano:
 
 class Diffusion360LoaderText2Pano:
     @classmethod
-    def INPUT_TYPES(cls):
+    def INPUT_TYPES(s):
         paths = []
+        root_paths = []
         for search_path in folder_paths.get_folder_paths("diffusers"):
             if os.path.exists(search_path):
                 for root, subdir, files in os.walk(search_path, followlinks=True):
                     if "RealESRGAN_x2plus.pth" in files:
                         paths.append(os.path.relpath(root, start=search_path))
+                        root_paths.append(search_path)
 
-        return {"required": {"model_path": (paths,), }}
+        return {"required": {
+            "model_path": (paths, ),
+            "model_root": (root_paths, ),
+        }}
     RETURN_TYPES = ("MODEL",)
     FUNCTION = "load_models"
 
     CATEGORY = "Diffusion360/diffusers"
 
-    def load_models(self, model_path):
-        pipe = Text2360PanoramaImagePipeline(os.path.join('models', 'diffusers', model_path), torch_dtype=torch.float16)
+    def load_models(self, model_path, model_root):
+        # pipe = Text2360PanoramaImagePipeline(os.path.join('models', 'diffusers', model_path), torch_dtype=torch.float16)
+        pipe = Text2360PanoramaImagePipeline(os.path.join(model_root, model_path), torch_dtype=torch.float16)
         return (pipe, )
 
 
@@ -169,22 +175,28 @@ class Diffusion360SamplerImage2Pano:
 
 class Diffusion360LoaderImage2Pano:
     @classmethod
-    def INPUT_TYPES(cls):
+    def INPUT_TYPES(s):
         paths = []
+        root_paths = []
         for search_path in folder_paths.get_folder_paths("diffusers"):
             if os.path.exists(search_path):
                 for root, subdir, files in os.walk(search_path, followlinks=True):
                     if "RealESRGAN_x2plus.pth" in files:
                         paths.append(os.path.relpath(root, start=search_path))
+                        root_paths.append(search_path)
 
-        return {"required": {"model_path": (paths,), }}
+        return {"required": {
+            "model_path": (paths, ),
+            "model_root": (root_paths, ),
+        }}
     RETURN_TYPES = ("MODEL", "IMAGE")
     FUNCTION = "load_models"
 
     CATEGORY = "Diffusion360/diffusers"
 
-    def load_models(self, model_path):
-        pipe = Image2360PanoramaImagePipeline(os.path.join('models', 'diffusers', model_path), torch_dtype=torch.float16)
+    def load_models(self, model_path, model_root):
+        # pipe = Image2360PanoramaImagePipeline(os.path.join('models', 'diffusers', model_path), torch_dtype=torch.float16)
+        pipe = Image2360PanoramaImagePipeline(os.path.join(model_root, model_path), torch_dtype=torch.float16)
         mask_path = os.path.join('custom_nodes', 'Diffusion360_ComfyUI', 'data', 'i2p-mask.jpg')
         mask = load_image(mask_path)
         return (pipe, mask)
